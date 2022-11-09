@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yqn.mapper.SxcRemarkMapper">
+
+    <resultMap type="com.yqn.pojo.SxcRemark" id="SxcRemarkResult">
+        <result property="id"    column="id"    />
+        <result property="star"    column="star"    />
+        <result property="remark"    column="remark"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="acceptId"    column="accept_id"    />
+        <result property="publishId"    column="publish_id"    />
+    </resultMap>
+
+    <sql id="selectSxcRemarkVo">
+        select id, star, remark, task_id, accept_id, publish_id from sxc_remark
+    </sql>
+
+    <select id="selectSxcRemarkList"  resultType="com.yqn.pojo.SxcRemark">
+        <include refid="selectSxcRemarkVo"/>
+        <where>
+            <if test="star != null "> and star = #{star}</if>
+            <if test="taskId != null "> and task_id = #{taskId}</if>
+            <if test="acceptId != null "> and accept_id = #{acceptId}</if>
+            <if test="publishId != null "> and publish_id = #{publishId}</if>
+        </where>
+    </select>
+
+    <select id="selectSxcRemarkById" parameterType="Long" resultType="com.yqn.pojo.SxcRemark">
+        <include refid="selectSxcRemarkVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSxcRemark"  useGeneratedKeys="true" keyProperty="id">
+        insert into sxc_remark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="star != null">star,</if>
+            <if test="remark != null">remark,</if>
+            <if test="taskId != null">task_id,</if>
+            <if test="acceptId != null">accept_id,</if>
+            <if test="publishId != null">publish_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="star != null">#{star},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="taskId != null">#{taskId},</if>
+            <if test="acceptId != null">#{acceptId},</if>
+            <if test="publishId != null">#{publishId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSxcRemark" >
+        update sxc_remark
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="star != null">star = #{star},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="acceptId != null">accept_id = #{acceptId},</if>
+            <if test="publishId != null">publish_id = #{publishId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSxcRemarkById" parameterType="Long">
+        delete from sxc_remark where id = #{id}
+    </delete>
+
+    <delete id="deleteSxcRemarkByIds" parameterType="String">
+        delete from sxc_remark where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

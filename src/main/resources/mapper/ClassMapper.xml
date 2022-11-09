@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yqn.mapper.ClassMapper">
+
+    <resultMap id="classResultMap" type="com.yqn.pojo.Class">
+        <id column="id" property="id"/>
+        <collection property="users" column="id" ofType="com.yqn.pojo.User" select="findUserByClassId"/>
+    </resultMap>
+
+
+    <select id="findUserByClassId" resultMap="com.yqn.mapper.UserMapper.userResultMap">
+        select * from user where class_id=#{id}
+    </select>
+
+</mapper>

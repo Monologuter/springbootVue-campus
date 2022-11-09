@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yqn.mapper.TaskMapper">
+
+    <resultMap id="taskResultMap" type="com.yqn.pojo.Task">
+        <id column="id" property="id"/>
+        <association property="school" column="user_school_id" select="findEntitySchoolById"/>
+        <association property="accept" column="accept_user_id" select="findUserById"/>
+        <association property="publish" column="publish_user_id" select="findUserById"/>
+    </resultMap>
+
+    <select id="findEntitySchoolById" resultType="com.yqn.pojo.School">
+        select * from school where id=#{id}
+    </select>
+
+    <select id="findUserById" resultMap="com.yqn.mapper.UserMapper.userResultMap">
+        select * from user where id=#{id}
+    </select>
+</mapper>

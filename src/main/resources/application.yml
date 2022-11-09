@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/campus_help
+    username: root
+    password: 12345678
+
+    druid:
+      aop-patterns: com.yqn.*
+      filters: stat,wall
+
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: admin
+
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+logging:
+  level:
+    com.yqn.mapper: debug

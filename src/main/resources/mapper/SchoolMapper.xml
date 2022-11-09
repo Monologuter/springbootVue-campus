@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yqn.mapper.SchoolMapper">
+
+    <resultMap id="schoolResultMap" type="com.yqn.pojo.School">
+        <id column="id" property="id"/>
+        <collection property="depts" column="id" ofType="com.yqn.pojo.Dept" select="findDeptBySchoolId"/>
+    </resultMap>
+
+    <select id="findDeptBySchoolId" resultMap="com.yqn.mapper.DeptMapper.deptResultMap">
+        select * from dept where school_id=#{id}
+    </select>
+
+</mapper>

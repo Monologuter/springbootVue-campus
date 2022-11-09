@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yqn.mapper.SxcStudentMapper">
+
+
+    <resultMap type="com.yqn.pojo.SxcStudent" id="SxcStudentResult">
+        <id property="id"    column="id"    />
+        <association property="name"    column="name"    />
+        <association property="age"    column="age"    />
+    </resultMap>
+
+    <sql id="selectSxcStudentVo">
+        select id, name, age from sxc_student
+    </sql>
+
+    <select id="selectSxcStudentList" resultType="com.yqn.pojo.SxcStudent">
+        <include refid="selectSxcStudentVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="age != null "> and age = #{age}</if>
+        </where>
+    </select>
+
+    <select id="selectSxcStudentById" parameterType="Long" resultType="com.yqn.pojo.SxcStudent">
+        <include refid="selectSxcStudentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSxcStudent"  useGeneratedKeys="true" keyProperty="id">
+        insert into sxc_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="age != null">age,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="age != null">#{age},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSxcStudent" >
+        update sxc_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="age != null">age = #{age},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSxcStudentById" parameterType="Long">
+        delete from sxc_student where id = #{id}
+    </delete>
+
+    <delete id="deleteSxcStudentByIds" parameterType="String">
+        delete from sxc_student where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
